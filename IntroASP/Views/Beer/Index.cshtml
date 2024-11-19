@@ -1,0 +1,69 @@
+﻿@model List<Beer>
+
+<h1>Bebidas</h1>
+
+<a asp-action="Create" class="btn btn-primary">Agregar</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Id
+			</th>
+			<th>
+				Nombre
+			</th>
+			<th>
+				Marca
+			</th>
+			<th>
+				Opciones
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var element in Model)
+		{
+			<tr>
+				<td>@Html.DisplayFor(m => element.Beerid)</td>
+				<td>@Html.DisplayFor(m => element.Name)</td>
+				<td>@Html.DisplayFor(m => element.Brand.Name)</td>
+				<td>
+					<a class="btn btn-secondary" asp-action="Edit" asp-route-id="@element.Beerid" asp-controller="Beer">Editar</a>
+					<!-- Botón para abrir el modal -->
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminar">
+						Eliminar
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<form class="modal-content" method="post" action="@Url.Action("Delete","Beer")">
+								<!-- Encabezado del Modal -->
+								<div class="modal-header">
+									<h5 class="modal-title" id="myModalLabel">¿Estás seguro que desea eliminar esta bebida?</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+
+								<input type="hidden" name="Beerid" value="@element.Beerid" />
+
+								<!-- Cuerpo del Modal -->
+								<div class="modal-body">
+									Se eliminará la bebida <strong>@element.Name</strong> de la marca <strong>@element.Brand.Name</strong>
+								</div>
+
+								<!-- Pie de página del Modal -->
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+									<button type="submit" class="btn btn-danger">Confirmar</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</td>
+			</tr>
+
+		}
+	</tbody>
+</table>
+
